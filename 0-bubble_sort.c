@@ -31,7 +31,7 @@ print_array(array, size);
 }
 }
 
-/* If no two elements were swapped in the inner loop, the array is already sorted */
+/* If no two elements were swapped in inner loop,the array is already sorted */
 if (swapped == 0)
 break;
 }
