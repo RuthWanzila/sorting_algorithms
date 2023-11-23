@@ -1,43 +1,73 @@
 #include "sort.h"
-#include <stdio.h>
 
 /**
-* insertion_sort_list - Sorts a doubly linked list of integers
-* in ascending order using Insertion sort
-* @list: Pointer to the head of the doubly linked list
+* swap - Swaps two elements in a doubly linked list
+* @a: First node to be swapped
+* @b: Second node to be swapped
+* @head: Pointer to the head of the list
+*
+* Swaps the positions of two nodes in a doubly linked list.
+*/
+void swap(listint_t *a, listint_t *b, listint_t **head)
+{
+listint_t *prev_a = NULL, *next_a = NULL;
+listint_t *prev_b = NULL, *next_b = NULL;
+
+if (a == NULL || b == NULL)
+return;
+
+prev_a = a->prev;
+next_a = a->next;
+prev_b = b->prev;
+next_b = b->next;
+
+if (prev_a)
+prev_a->next = b;
+if (next_a)
+next_a->prev = b;
+if (prev_b)
+prev_b->next = a;
+if (next_b)
+next_b->prev = a;
+
+a->next = next_b;
+a->prev = prev_b;
+b->next = next_a;
+b->prev = prev_a;
+
+if (prev_a == NULL)
+*head = b;
+}
+
+/**
+* insertion_sort_list - Sorts a doubly linked list in ascending order
+* using the insertion sort algorithm
+* @list: Pointer to the head of the list
+*
+* Sorts the list in place using the insertion sort algorithm.
 */
 void insertion_sort_list(listint_t **list)
 {
-listint_t *current, *temp;
+listint_t *head, *prev;
+int value;
 
 if (list == NULL || *list == NULL || (*list)->next == NULL)
 return;
 
-current = (*list)->next;
+head = *list;
 
-while (current != NULL)
+while (head)
 {
-temp = current->next;
+prev = head->prev;
+value = head->n;
 
-while (current->prev != NULL && current->n < current->prev->n)
+while (prev && prev->n > value)
 {
-/* Swap current and current->prev nodes */
-if (current->next != NULL)
-current->next->prev = current->prev;
-current->prev->next = current->next;
-current->next = current->prev;
-current->prev = current->prev->prev;
-current->next->prev = current;
-
-if (current->prev == NULL)
-*list = current;
-
-if (current->next != NULL)
-current->next->prev = current;
-
+swap(prev, head, list);
 print_list(*list);
+prev = head->prev;
 }
 
-current = temp;
+head = head->next;
 }
 }
