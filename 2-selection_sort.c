@@ -1,58 +1,53 @@
 #include "sort.h"
-#include <stdio.h>
 
 /**
 * locate_min - Locates the minimum value from the current index in the array
 * @array: The array to be searched
-* @index: Starting index of the search
+* @index: The starting index of the search
 * @size: The size of the array
 * Return: The index of the minimum value if found,
- * or the same given index if the index is the minimum
+* or the same given index if it's already the minimum
 */
 int locate_min(int *array, int index, size_t size)
 {
-int min, idx_min;
+int min_value = array[index];
+int min_index = index;
 int i;
 
-min = array[index];
-idx_min = index;
 for (i = index; i < (int)size; i++)
 {
-if (array[i] < min)
+if (array[i] < min_value)
 {
-min = array[i];
-idx_min = i;
+min_value = array[i];
+min_index = i;
 }
 }
-if (idx_min == index)
+
+if (min_index == index)
 return (-1);
-return (idx_min);
+
+return (min_index);
 }
 
 /**
-* selection_sort - Implementation of the Selection Sort algorithm
-* @array: Array to sort (type int *)
+* selection_sort - Implements the Selection Sort algorithm
+* @array: The array to be sorted (type int *)
 * @size: The size of the given array
 */
 void selection_sort(int *array, size_t size)
 {
-int i;
-int min, tmp;
+int i, min_index, temp;
 
 for (i = 0; i < (int)size; i++)
 {
-min = locate_min(array, i, size);
-if (min != -1)
-{
-tmp = array[i];
-array[i] = array[min];
-array[min] = tmp;
+min_index = locate_min(array, i, size);
 
-/* Print the array */
-printf("%d", array[0]);
-for (i = 1; i < (int)size; i++)
-printf(", %d", array[i]);
-printf("\n");
+if (min_index != -1)
+{
+temp = array[i];
+array[i] = array[min_index];
+array[min_index] = temp;
+print_array(array, size);
 }
 }
 }
